@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}UGC NET Prep{% endblock %} | NetPrep</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --navy: #0d1b2a;
+      --navy-mid: #1b2d42;
+      --navy-light: #243447;
+      --gold: #d4a843;
+      --gold-light: #f0c66a;
+      --gold-pale: #fdf3d8;
+      --cream: #faf8f4;
+      --white: #ffffff;
+      --text: #1a2332;
+      --text-muted: #6b7a90;
+      --text-light: #9aa5b4;
+      --border: #e8e4dc;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --info: #3b82f6;
+      --paper1: #4f46e5;
+      --paper2: #0891b2;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(13,27,42,0.08);
+      --shadow-lg: 0 8px 40px rgba(13,27,42,0.14);
+      --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: var(--navy);
+      border-bottom: 2px solid var(--gold);
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+    .navbar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 64px;
+    }
+    .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--gold);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      margin-right: 8px;
+    }
+    .navbar-brand .brand-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+    }
+    .nav-link {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: var(--transition);
+    }
+    .nav-link:hover, .nav-link.active {
+      background: rgba(212,168,67,0.15);
+      color: var(--gold-light);
+    }
+    .nav-link i { font-size: 0.8rem; }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-left: auto;
+    }
+    .btn-nav {
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .btn-nav:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.875rem;
+    }
+    .nav-avatar {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+      min-width: 180px;
+      overflow: hidden;
+      display: none;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu { display: block; }
+    .nav-dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 16px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: var(--transition);
+    }
+    .nav-dropdown-menu a:hover { background: var(--cream); color: var(--navy); }
+    .nav-dropdown-menu a i { width: 16px; color: var(--text-muted); }
+    .nav-dropdown-menu .separator {
+      border-top: 1px solid var(--border);
+      margin: 4px 0;
+    }
+
+    /* ── Flash Messages ── */
+    .flash-container {
+      max-width: 1280px;
+      margin: 16px auto 0;
+      padding: 0 24px;
+    }
+    .flash {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .flash-success { background: #dcfce7; color: #15803d; border-left: 4px solid #22c55e; }
+    .flash-danger  { background: #fee2e2; color: #dc2626; border-left: 4px solid #ef4444; }
+    .flash-info    { background: #dbeafe; color: #1d4ed8; border-left: 4px solid #3b82f6; }
+    .flash-warning { background: #fef3c7; color: #d97706; border-left: 4px solid #f59e0b; }
+    .flash-close {
+      margin-left: auto;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: inherit;
+      opacity: 0.6;
+      font-size: 1rem;
+    }
+    .flash-close:hover { opacity: 1; }
+
+    /* ── Main Content ── */
+    main { flex: 1; }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+    .container-sm {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    /* ── Page Header ── */
+    .page-header {
+      margin-bottom: 32px;
+    }
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .page-header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--navy); }
+    .breadcrumb i { font-size: 0.65rem; }
+
+    /* ── Cards ── */
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-body { padding: 24px; }
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 2px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition);
+      line-height: 1;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--navy); color: white; }
+    .btn-primary:hover { background: var(--navy-mid); }
+    .btn-gold { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+    .btn-gold:hover { background: var(--gold-light); }
+    .btn-outline { background: transparent; color: var(--navy); border-color: var(--border); }
+    .btn-outline:hover { border-color: var(--navy); background: var(--cream); }
+    .btn-success { background: var(--success); color: white; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-sm { padding: 7px 14px; font-size: 0.8rem; }
+    .btn-lg { padding: 14px 28px; font-size: 1rem; }
+    .btn-block { width: 100%; justify-content: center; }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .badge-paper1 { background: rgba(79,70,229,0.12); color: var(--paper1); }
+    .badge-paper2 { background: rgba(8,145,178,0.12); color: var(--paper2); }
+    .badge-easy   { background: #dcfce7; color: #15803d; }
+    .badge-medium { background: #fef3c7; color: #d97706; }
+    .badge-hard   { background: #fee2e2; color: #dc2626; }
+    .badge-gold   { background: rgba(212,168,67,0.15); color: #92640a; }
+
+    /* ── Progress Bar ── */
+    .progress-wrap { background: var(--border); border-radius: 999px; overflow: hidden; }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      border-radius: 999px;
+      transition: width 0.8s ease;
+    }
+
+    /* ── Forms ── */
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 11px 14px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--text);
+      background: white;
+      transition: var(--transition);
+      outline: none;
+    }
+    .form-control:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,168,67,0.12); }
+    select.form-control { cursor: pointer; }
+    .form-text { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+    .form-check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      padding: 4px 0;
+    }
+    .form-check input { width: 16px; height: 16px; cursor: pointer; accent-color: var(--gold); }
+
+    /* ── Grid ── */
+    .grid { display: grid; gap: 24px; }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 1024px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } .grid-3 { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 640px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+
+    /* ── Stat Card ── */
+    .stat-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 24px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .stat-icon {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .stat-info .stat-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-info .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.6);
+      padding: 28px 24px;
+      text-align: center;
+      font-size: 0.85rem;
+      margin-top: auto;
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    /* ── Utilities ── */
+    .text-gold { color: var(--gold); }
+    .text-navy { color: var(--navy); }
+    .text-muted { color: var(--text-muted); }
+    .text-success { color: var(--success); }
+    .text-danger { color: var(--danger); }
+    .fw-600 { font-weight: 600; }
+    .fw-700 { font-weight: 700; }
+    .mb-4 { margin-bottom: 16px; }
+    .mb-8 { margin-bottom: 32px; }
+    .mt-4 { margin-top: 16px; }
+    .d-flex { display: flex; }
+    .align-center { align-items: center; }
+    .justify-between { justify-content: space-between; }
+    .gap-8 { gap: 8px; }
+    .gap-12 { gap: 12px; }
+    .gap-16 { gap: 16px; }
+    .serif { font-family: 'Playfair Display', serif; }
+    .mono { font-family: 'DM Mono', monospace; }
+    .rounded { border-radius: var(--radius); }
+    .shadow { box-shadow: var(--shadow); }
+    .w-full { width: 100%; }
+
+    /* ── Animations ── */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.5s ease forwards; }
+    @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
+    .pulse { animation: pulse 2s infinite; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+  </style>
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="{{ url_for('main.index') }}" class="navbar-brand">
+        <div class="brand-icon">🎓</div>
+        <span>ADARSH UCG NET PREPARATION</span>
+      </a>
+      <div class="nav-links">
+        <a href="{{ url_for('main.index') }}" class="nav-link {% if request.endpoint == 'main.index' %}active{% endif %}">
+          <i class="fas fa-home"></i> Home
+        </a>
+        <a href="{{ url_for('topics.index') }}" class="nav-link {% if request.blueprint == 'topics' %}active{% endif %}">
+          <i class="fas fa-book-open"></i> Topics
+        </a>
+        <a href="{{ url_for('exam.index') }}" class="nav-link {% if request.blueprint == 'exam' %}active{% endif %}">
+          <i class="fas fa-file-alt"></i> Mock Exam
+        </a>
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('dashboard.index') }}" class="nav-link {% if request.blueprint == 'dashboard' %}active{% endif %}">
+          <i class="fas fa-chart-line"></i> Dashboard
+        </a>
+        {% endif %}
+      </div>
+      <div class="nav-right">
+        {% if current_user.is_authenticated %}
+          <div class="nav-dropdown">
+            <div class="nav-user" style="cursor:pointer;">
+              <div class="nav-avatar">{{ current_user.username[0].upper() }}</div>
+              <span style="color:rgba(255,255,255,0.85);">{{ current_user.username }}</span>
+              <i class="fas fa-chevron-down" style="font-size:0.65rem;color:rgba(255,255,255,0.5);"></i>
+            </div>
+            <div class="nav-dropdown-menu">
+              <a href="{{ url_for('dashboard.index') }}"><i class="fas fa-chart-bar"></i> Dashboard</a>
+              <a href="{{ url_for('auth.profile') }}"><i class="fas fa-user-cog"></i> Profile</a>
+              <a href="{{ url_for('exam.history') }}"><i class="fas fa-history"></i> Exam History</a>
+              <div class="separator"></div>
+              <a href="{{ url_for('auth.logout') }}" style="color:var(--danger)!important;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+          </div>
+        {% else %}
+          <a href="{{ url_for('auth.login') }}" class="nav-link">Login</a>
+          <a href="{{ url_for('auth.register') }}" class="btn-nav"><i class="fas fa-rocket"></i> Get Started</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-container">
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">
+            {% if category == 'success' %}<i class="fas fa-check-circle"></i>
+            {% elif category == 'danger' %}<i class="fas fa-exclamation-circle"></i>
+            {% elif category == 'warning' %}<i class="fas fa-exclamation-triangle"></i>
+            {% else %}<i class="fas fa-info-circle"></i>{% endif %}
+            {{ message }}
+            <button class="flash-close" onclick="this.parentElement.remove()">✕</button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <main>{% block content %}{% endblock %}</main>
+
+  <footer>
+    <div>© 2024 NetPrep — UGC NET IT Preparation Platform &nbsp;|&nbsp;
+    Built with ❤️ for aspirants &nbsp;|&nbsp;
+    <a href="{{ url_for('topics.index') }}">Topics</a> &nbsp;·&nbsp;
+    <a href="{{ url_for('exam.index') }}">Mock Exams</a></div>
+  </footer>
+
+  <script>
+    // Auto-close flash messages
+    setTimeout(() => {
+      document.querySelectorAll('.flash').forEach(el => {
+        el.style.transition = 'opacity 0.5s';
+        el.style.opacity = '0';
+        setTimeout(() => el.remove(), 500);
+      });
+    }, 5000);
+  </script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>
